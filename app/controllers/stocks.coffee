@@ -75,20 +75,23 @@ class StockList extends Panel
 
     @log 'StockList instantiated!'
     Stock.bind('refresh change', @render)
+    @active Stock.updateAll
+    @addButton('Refresh', @render)
     @addButton('Add', @add).addClass('right')
 
   click: (e) ->
     console.log 'click'
-    console.log $(e.target).html()
-    item = $(e.target).item()
+    console.log $(e.currentTarget)
+    item = Stock.all()[$(e.currentTarget).index()]
     @navigate('/stocks', item.id, trans: 'right')
 
   add: ->
     @navigate('/stocks/add', trans:  'right')
 
   render: =>
-    console.log "render"
+    console.log "render #{Stock.count()}"
     items = Stock.all()
+    console.log require('views/stocks/item')(items)
     @html require('views/stocks/item')(items)
 
 
@@ -101,7 +104,9 @@ class Stocks extends Spine.Controller
     @detail = new StockDetails
     @add = new StockAdd
 
+    console.log "start fetch"
     Stock.fetch()
+    console.log "fetch done"
 
     @routes
       '/stocks/add':    (params) -> @add.active(params)

@@ -1,6 +1,7 @@
 require('lib/setup')
 
 Spine = require('spine')
+$ = Spine.$
 {Stage} = require('spine.mobile')
 Stocks = require('controllers/stocks')
 
