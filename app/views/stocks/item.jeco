@@ -1,0 +1,9 @@
+<div class="item">
+  <table>
+    <tr>
+      <td><%= @name %></td>
+      <td><%= @code %></td>
+      <td><%= @currentPrice %></td>
+    </tr>
+  </table>
+</div>

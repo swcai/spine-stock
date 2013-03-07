@@ -1,0 +1,10 @@
+<% if @name: %>
+  <p><%= @name %></p>
+<% end %>
+
+<% if @code: %>
+  <p><%= @code %></p>
+
+<% if @currentPrice: %>
+  <p><%= @currentPrice %></p>
+<% end %>
