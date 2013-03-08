@@ -1,1 +1,1 @@
-web: serveup ./public
+web: node app.js
