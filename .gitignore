@@ -1,3 +1,7 @@
 node_modules
 *~
 *.bak
+phonegap/gen/*
+phonegap/bin/*
+*_
+*.swp
