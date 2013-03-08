@@ -24,16 +24,17 @@ class Stock extends Spine.Model
       
   @fetchPriceFromSite: (item) =>
     return unless item
-    console.log item
     if item.code.charAt(0) == '6'
+      valname = 'sh' + item.code
       url = @endpoint + 'sh' + item.code
     else
+      valname = 'sz' + item.code
       url = @endpoint + 'sz' + item.code
-    console.log url
-    $.get url, (data) =>
-        left = data.indexOf '"'
-        right = data.lastIndexOf '"'
-        vals = (data.substring left + 1, right).split(",")
-        item.updateAttributes(name: vals[0], currentPrice: vals[3])
+    $.ajaxSetup({cache: true})
+    $.getScript url, (data) =>
+      $.ajaxSetup({cache: false})
+      eval("data = hq_str_#{valname}")
+      vals = data.split(",")
+      item.updateAttributes(name: vals[0], currentPrice: vals[3])
 
 module.exports = Stock

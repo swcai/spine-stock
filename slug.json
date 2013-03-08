@@ -9,8 +9,7 @@
     "spine/lib/ajax",
     "spine/lib/route",
     "spine/lib/manager",
-    "spine.mobile",
-    "express"
+    "spine.mobile"
   ],
   "libs": []
 }
