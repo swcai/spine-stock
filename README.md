@@ -1,10 +1,10 @@
 My Stock HTML5 application
 
 TODO list
-- StockAdd default to active the input
 - Optimize the refresh rate
 - Add StockDetail Panel
-- Deploy on PhoneGap, testing on Android and Apple - Done
 - Update the app Theme
 - beautify the StockList panel
 - code clean
+
+branch 'dev' - move to use jquery.mobile to beautify the app. Give up spine.mobile

@@ -1,9 +1,8 @@
-<div class="item">
-  <table>
-    <tr>
-      <td><%= @name %></td>
-      <td><%= @code %></td>
-      <td><%= @currentPrice %></td>
-    </tr>
-  </table>
+<div class="stock_item">
+   <li><a href="#detail">
+   <h2><%= @name %></h2><%= @code %>
+   <p><strong><%= @currentPrice %></strong></p>
+   </a>
+   <a href="#delete"></a>
+   </li>
 </div>

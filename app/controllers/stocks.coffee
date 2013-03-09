@@ -1,57 +1,16 @@
 Spine = require('spine')
-{Panel} = require('spine.mobile')
 $ = Spine.$
 Stock = require('models/stock')
 
-class StockAdd extends Panel
-  title: 'Stock Add'
-
-  elements:
-    'form': 'form'
-
-  events:
-    'submit form': 'submit'
+# not to be used at this point
+class StockDetail extends Spine.Controller
+  title: 'Stock Detail'
 
   constructor: ->
     super
-
-    @log 'StockAdd instantiated!'
-
-    @addButton('Cancel', @back)
-    @addButton('Add', @submit).addClass('right')
-
-    @active @render
-
-  render: ->
-    @log 'StockAdd renderred!'
-    @html require('views/stocks/add')()
-    $('input').focus
-
-  back: ->
-    @navigate('/stocks', trans: 'left')
-
-  submit: (e) ->
-    e.preventDefault()
-    stock = Stock.fromForm(@form)
-    console.log stock
-    if stock.save()
-      @navigate('/stocks', trans: 'left')
-
-  deactive: ->
-    super
-    @form.blur()
-
-
-class StockDetails extends Panel
-  title: 'Stock Details'
-
-  constructor: ->
-    super
-
-    @log 'StockDetails instantiated!'
+    @log "StockDetail instantiatized! #{@el.html()} #{@$el.html()}"
     Stock.bind('change', @render)
     @active (params) -> @change(params.id)
-    @addButton('back', @back)
 
   render: =>
     return unless @item
@@ -65,54 +24,102 @@ class StockDetails extends Panel
     @render
 
 
-class StockList extends Panel
-  events:
-    'tap .item': 'click'
-
+class StockListItem extends Spine.Controller
+  className: 'stockList'
   title: 'Stocks'
 
   constructor: ->
     super
-
-    @log 'StockList instantiated!'
+    @log 'StockListItem instantiated!'
     Stock.bind('refresh change', @render)
-    @active Stock.updateAll
-    @addButton('Refresh', @render)
-    @addButton('Add', @add).addClass('right')
 
   click: (e) ->
-    console.log 'click'
-    console.log $(e.currentTarget)
-    item = Stock.all()[$(e.currentTarget).index()]
-    @navigate('/stocks', item.id, trans: 'right')
-
-  add: ->
-    @navigate('/stocks/add', trans:  'right')
+    @navigate('/stocks', @item.id, trans: 'right')
 
   render: =>
-    console.log "render #{Stock.count()}"
-    items = Stock.all()
-    console.log require('views/stocks/item')(items)
-    @html require('views/stocks/item')(items)
+    console.log "render #{require('views/stocks/item')(@item).html()}"
+    @html require('views/stocks/item')(@item)
 
 
-class Stocks extends Spine.Controller
+class StockListView extends Spine.Controller
+  constructor: ->
+    super
+    @log 'StockListView instantialized!'
+    Stock.bind('refresh', @addAll)
+    Stock.bind('create', @addOne)
+    @log "el #{@el.html()} #{@$el.html()}"
+
+  addOne: (item) =>
+    @log "addOne in StockListView"
+    stock = new StockListItem(item: item)
+    @append stock.render
+
+  addAll: =>
+    Stock.each(@addOne)
+
+
+class StockList extends Spine.Controller
+  events:
+    'tap #stocklist_button_refresh'  : 'addAll'
+    'tap #stocklist_button_openpanel': 'openStockAddPanel'
+    'tap #stocklist_button_cancel'   : 'closeStockAddPanel'
+    'tap #stocklist_button_add'      : 'addStock'
+    # 'keypress #stocklist_input_code' : 'keyinput'
+
+  elements:
+    '#stocklist_input_code': 'code_input'
+    '#stocklist_panel_add': 'StockAddPanel'
+    '#stocklist_listview': 'listview'
+
+  constructor: ->
+    super
+    @log "StockList instantiatized! #{@el.html()} #{@$el.html()}"
+    @listview = new StockListView(el: '#stocklist_listview')
+
+  addAll: ->
+    @listview.addAll
+
+  openStockAddPanel: ->
+    @StockAddPanel.panel 'open'
+
+  closeStockAddPanel: ->
+    @StockAddPanel.panel 'close'
+
+  addStock: ->
+    @log '1'
+    code = @code_input.val()
+    @log code
+    stock = new Stock({code: code})
+    @log stock
+    stock.save()
+    @code_input.val('')
+    @StockAddPanel.panel 'close'
+
+  ###
+  keyinput: (e) =>
+    @log e
+    if e.keyCode == 13
+      @log 'gogo'
+      e.preventDefault()
+      @log "#{@addStock}"
+      @addStock
+      @log 'back'
+  ###
+
+class StockAppStack extends Spine.Stack
   constructor: ->
     super
 
-    @log 'Stocks instantiated!'
-    @list = new StockList
-    @detail = new StockDetails
-    @add = new StockAdd
+    @log 'StockAppStack instantiated!'
+    @list = new StockList(el: "#stocklist_page")
+    @detail = new StockDetail(el: "#stockdetail_page")
 
-    console.log "start fetch"
-    Stock.fetch()
-    console.log "fetch done"
+    # console.log "start fetch"
+    # Stock.fetch()
+    # console.log "fetch done"
 
-    @routes
-      '/stocks/add':    (params) -> @add.active(params)
-      '/stocks/:id':    (params) -> @detail.active(params)
-      '/stocks':        (params) -> @list.active(params)
+    @route '/stocks/:id', (params) -> @detail.active(params)
+    @route '/stocks', (params) -> @list.active(params)
 
 
-module.exports = Stocks
+module.exports = StockAppStack

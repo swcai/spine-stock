@@ -2,17 +2,15 @@ require('lib/setup')
 
 Spine = require('spine')
 $ = Spine.$
-{Stage} = require('spine.mobile')
-Stocks = require('controllers/stocks')
+StockAppStack = require('controllers/stocks')
 
-class App extends Stage.Global
+class App extends Spine.Controller
   constructor: ->
     super
     @log 'StockApp instantiated!'
-    @stocks = new Stocks
-
+    @stack = new StockAppStack
     Spine.Route.setup(shim: true) 
-    @log 'go StockList'
+    @log  'here we go'
     @navigate '/stocks'
 
 module.exports = App

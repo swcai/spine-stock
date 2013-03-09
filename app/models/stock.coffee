@@ -8,31 +8,31 @@ class Stock extends Spine.Model
 
   constructor: ->
     super
-    # Spine.Model.host = 'http://hq.sinajs.cn'
 
-  # @default: -> new @(name: 'GREE Electronics', code: '000651', 'currentPrice': 0.0)
-  @endpoint: 'http://hq.sinajs.cn/list='
+  endpoint: 'http://hq.sinajs.cn/list='
 
-  @fetch: ->
+  load: (item) ->
     super
-    @updateAll
+    console.log "load #{item}"
+    @fetchPriceFromRemote item
+    @saveLocal
+    this
 
-  @updateAll: =>
-    console.log "fetch #{@count()}"
-    @fetchPriceFromSite item for item in @all()
-    @saveLocal()
-      
-  @fetchPriceFromSite: (item) =>
+  fetchPriceFromRemote: (item) =>
     return unless item
+    console.log "item #{item}"
     if item.code.charAt(0) == '6'
       valname = 'sh' + item.code
       url = @endpoint + 'sh' + item.code
     else
       valname = 'sz' + item.code
       url = @endpoint + 'sz' + item.code
+    console.log "url #{url}"
     $.ajaxSetup({cache: true})
     $.getScript url, (data) =>
       $.ajaxSetup({cache: false})
+      return unless data
+      console.log "data #{data}"
       eval("data = hq_str_#{valname}")
       vals = data.split(",")
       item.updateAttributes(name: vals[0], currentPrice: vals[3])
