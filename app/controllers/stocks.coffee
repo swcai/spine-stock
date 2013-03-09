@@ -25,6 +25,7 @@ class StockAdd extends Panel
   render: ->
     @log 'StockAdd renderred!'
     @html require('views/stocks/add')()
+    $('input').focus
 
   back: ->
     @navigate('/stocks', trans: 'left')

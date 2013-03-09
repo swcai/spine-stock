@@ -1,6 +1,6 @@
 <form>
   <label>
     <span>Code</span>
-    <input type="text" name="code">
+    <input type="text" name="code" autofocus="autofocus">
   </label>
 </form>
