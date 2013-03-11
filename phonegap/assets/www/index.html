@@ -1,1 +1,60 @@
-../../../public/index.html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8>
+  <meta name="viewport" content="width=device-width; initial-scale=1.0; minimum-scale=1; maximum-scale=1.0; user-scalable=0;"/>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no" />
+  <title>Stock App</title>
+  <link rel="stylesheet" href="jquery.mobile-1.3.0.min.css" type="text/css" charset="utf-8">
+  <script src="application.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript" charset="utf-8">
+    var exports = this;
+    onReady = function(){
+        navigator.splashscreen.show();
+        var App = require("index");
+        exports.app = new App({el: $("body")});      
+    };
+    window.cordova ? document.addEventListener('deviceready', onReady, false) : console.log('error');
+  </script>
+</head>
+<body>
+<div data-role='page' id='stocklist_page' data-theme='b'>
+   <div data-role='panel' id='stocklist_panel_add' data-position='right' data-display='overlay'>
+     <div data-role='panel-content'>
+       <h1>Add new stock</h1>
+       <label>
+         <span>Code</span>
+         <input id='stocklist_input_code' type="number" name="code" autofocus="autofocus" data-clear-btn='true'>
+       </label>
+       <a data-role='button' id='stocklist_button_add' data-icon='plus'>Add</a>
+       <a data-role='button' id='stocklist_button_cancel' data-icon='back'>Cancel</a>
+     </div>
+   </div>
+
+   <div data-role='header' data-position='fixed' data-theme='b'>
+      <a data-role='buton' data-icon="refresh" id='stocklist_button_refresh'>Refresh</a>
+      <h1>Stock List</h1>
+      <a data-role='button' data-icon="plus" id='stocklist_button_openpanel'>New</a>
+   </div>
+   <div data-role='content'>
+      <ul id='stocklist_listview' data-role='listview' data-split-icon='delete' data-inset='true'>
+      </ul>
+   </div>
+   <div data-role='footer' data-position='fixed' data-theme='b'>
+   </div>
+</div>
+
+<div data-role='page' id='stockdetail_page' data-theme='b'>
+   <div data-role='header' data-position='fixed' data-theme='b'>
+      <h1>Stock Detail</h1>
+   </div>
+   <div data-role='content'>
+   </div>
+   <div data-role='footer' data-position='fixed' data-theme='b'>
+   </div>
+</div>
+
+</body>
+</html>
