@@ -90,9 +90,11 @@ class StockList extends Spine.Controller
     @listview.addAll
 
   openStockAddPanel: ->
+    @code_input.removeAttr 'disabled'
     @StockAddPanel.panel 'open'
 
   closeStockAddPanel: ->
+    @code_input.attr('disabled', 'true') 
     @StockAddPanel.panel 'close'
 
   addStock: ->

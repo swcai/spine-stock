@@ -18,20 +18,20 @@
   </script>
 </head>
 <body>
-<div data-role='page' id='stocklist_page'>
+<div data-role='page' id='stocklist_page' data-theme='b'>
    <div data-role='panel' id='stocklist_panel_add' data-position='right' data-display='overlay'>
      <div data-role='panel-content'>
        <h1>Add new stock</h1>
        <label>
          <span>Code</span>
-         <input id='stocklist_input_code' type="number" name="code" autofocus="autofocus">
+         <input id='stocklist_input_code' type="number" name="code" autofocus="autofocus" data-clear-btn='true'>
        </label>
        <a data-role='button' id='stocklist_button_add' data-icon='plus'>Add</a>
        <a data-role='button' id='stocklist_button_cancel' data-icon='back'>Cancel</a>
      </div>
    </div>
 
-   <div data-role='header' data-position='fixed'>
+   <div data-role='header' data-position='fixed' data-theme='b'>
       <a data-role='buton' data-icon="refresh" id='stocklist_button_refresh'>Refresh</a>
       <h1>Stock List</h1>
       <a data-role='button' data-icon="plus" id='stocklist_button_openpanel'>New</a>
@@ -40,17 +40,17 @@
       <ul id='stocklist_listview' data-role='listview' data-split-icon='delete' data-inset='true'>
       </ul>
    </div>
-   <div data-role='footer' data-position='fixed'>
+   <div data-role='footer' data-position='fixed' data-theme='b'>
    </div>
 </div>
 
-<div data-role='page' id='stockdetail_page'>
-   <div data-role='header' data-position='fixed'>
+<div data-role='page' id='stockdetail_page' data-theme='b'>
+   <div data-role='header' data-position='fixed' data-theme='b'>
       <h1>Stock Detail</h1>
    </div>
    <div data-role='content'>
    </div>
-   <div data-role='footer' data-position='fixed'>
+   <div data-role='footer' data-position='fixed' data-theme='b'>
    </div>
 </div>
 
