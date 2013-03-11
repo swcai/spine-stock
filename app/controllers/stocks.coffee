@@ -25,7 +25,7 @@ class StockDetail extends Spine.Controller
 
 
 class StockListItem extends Spine.Controller
-  className: 'stockList'
+  tag: 'li'
   title: 'Stocks'
 
   constructor: ->
@@ -42,6 +42,14 @@ class StockListItem extends Spine.Controller
 
 
 class StockListView extends Spine.Controller
+  tag: 'ul'
+  ###
+  attributes:
+    'data-role':  'listview'
+    'data-split-icon': 'gear'
+    'data-inset': 'true'
+  ###
+
   constructor: ->
     super
     @log 'StockListView instantialized!'
@@ -53,6 +61,8 @@ class StockListView extends Spine.Controller
     @log "addOne in StockListView"
     stock = new StockListItem(item: item)
     @append stock.render
+    # enforce listview update
+    @el.listview 'refresh'
 
   addAll: =>
     Stock.each(@addOne)

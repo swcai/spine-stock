@@ -1,8 +1,5 @@
-<div class="stock_item">
-   <li><a href="#detail">
-   <h2><%= @name %></h2><%= @code %>
-   <p><strong><%= @currentPrice %></strong></p>
-   </a>
-   <a href="#delete"></a>
-   </li>
-</div>
+<a href="#detail">
+<p><strong><%= @name %></strong>&nbsp;-&nbsp;<%= @code %></p>
+<%= @currentPrice %>
+</a>
+<a href="#delete"></a>
