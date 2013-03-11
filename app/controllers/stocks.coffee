@@ -31,7 +31,7 @@ class StockListItem extends Spine.Controller
   constructor: ->
     super
     @log 'StockListItem instantiated!'
-    Stock.bind('refresh change', @render)
+    Stock.bind('refresh update', @render)
 
   click: (e) ->
     @navigate('/stocks', @item.id, trans: 'right')
@@ -86,12 +86,8 @@ class StockList extends Spine.Controller
     @StockAddPanel.panel 'close'
 
   addStock: ->
-    @log '1'
     code = @code_input.val()
-    @log code
-    stock = new Stock({code: code})
-    @log stock
-    stock.save()
+    Stock.createStockAsync code
     @code_input.val('')
     @StockAddPanel.panel 'close'
 

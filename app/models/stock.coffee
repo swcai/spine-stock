@@ -4,37 +4,35 @@ $ = jQuery
 class Stock extends Spine.Model
   @configure 'Stock', 'name', 'code', 'currentPrice'
 
-  @extend Spine.Model.Local
-
   constructor: ->
     super
 
-  endpoint: 'http://hq.sinajs.cn/list='
+  @endpoint: 'http://hq.sinajs.cn/list='
 
-  load: (item) ->
-    super
-    console.log "load #{item}"
-    @fetchPriceFromRemote item
-    @saveLocal
-    this
-
-  fetchPriceFromRemote: (item) =>
-    return unless item
-    console.log "item #{item}"
-    if item.code.charAt(0) == '6'
-      valname = 'sh' + item.code
-      url = @endpoint + 'sh' + item.code
+  @createStockAsync: (code) ->
+    return unless code
+    console.log "code #{code}"
+    if code.charAt(0) == '6'
+      valname = 'sh' + code
+      url = Stock.endpoint + 'sh' + code
     else
-      valname = 'sz' + item.code
-      url = @endpoint + 'sz' + item.code
+      valname = 'sz' + code
+      url = Stock.endpoint + 'sz' + code
     console.log "url #{url}"
-    $.ajaxSetup({cache: true})
+    $.ajaxSetup
+      cache: true
+
     $.getScript url, (data) =>
-      $.ajaxSetup({cache: false})
+      $.ajaxSetup
+        cache: false
+
+      eval "data = hq_str_#{valname}" 
+      console.log "data = #{data}"
       return unless data
-      console.log "data #{data}"
-      eval("data = hq_str_#{valname}")
-      vals = data.split(",")
-      item.updateAttributes(name: vals[0], currentPrice: vals[3])
+      vals = data.split "," 
+      Stock.create
+        code: code
+        name: vals[0]
+        currentPrice: vals[3]
 
 module.exports = Stock
