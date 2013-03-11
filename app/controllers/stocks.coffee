@@ -74,7 +74,7 @@ class StockList extends Spine.Controller
     'tap #stocklist_button_openpanel': 'openStockAddPanel'
     'tap #stocklist_button_cancel'   : 'closeStockAddPanel'
     'tap #stocklist_button_add'      : 'addStock'
-    # 'keypress #stocklist_input_code' : 'keyinput'
+    'keypress #stocklist_input_code' : 'keyinput'
 
   elements:
     '#stocklist_input_code': 'code_input'
@@ -98,19 +98,14 @@ class StockList extends Spine.Controller
   addStock: ->
     code = @code_input.val()
     Stock.createStockAsync code
-    @code_input.val('')
+    @code_input.val ''
     @StockAddPanel.panel 'close'
 
-  ###
   keyinput: (e) =>
-    @log e
     if e.keyCode == 13
-      @log 'gogo'
       e.preventDefault()
-      @log "#{@addStock}"
-      @addStock
-      @log 'back'
-  ###
+      @log "keyinput - #{@addStock}"
+      @addStock()
 
 class StockAppStack extends Spine.Stack
   constructor: ->

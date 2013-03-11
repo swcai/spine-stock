@@ -11,6 +11,7 @@ class Stock extends Spine.Model
 
   @createStockAsync: (code) ->
     return unless code
+    $.mobile.showPageLoadingMsg()
     console.log "code #{code}"
     if code.charAt(0) == '6'
       valname = 'sh' + code
@@ -28,6 +29,7 @@ class Stock extends Spine.Model
 
       eval "data = hq_str_#{valname}" 
       console.log "data = #{data}"
+      $.mobile.hidePageLoadingMsg()
       return unless data
       vals = data.split "," 
       Stock.create
