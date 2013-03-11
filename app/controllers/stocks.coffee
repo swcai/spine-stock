@@ -21,7 +21,7 @@ class StockDetail extends Spine.Controller
 
   change: (id) ->
     @item = Stock.find(id)
-    @render
+    @render()
 
 
 class StockListItem extends Spine.Controller
@@ -87,7 +87,8 @@ class StockList extends Spine.Controller
     @listview = new StockListView(el: '#stocklist_listview')
 
   addAll: ->
-    @listview.addAll
+    # @listview.addAll
+    Stock.refresh Stock.all()
 
   openStockAddPanel: ->
     @code_input.removeAttr 'disabled'
