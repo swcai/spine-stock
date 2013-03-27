@@ -12,11 +12,12 @@
   <script type="text/javascript" charset="utf-8">
     var exports = this;
     onReady = function(){
-        navigator.splashscreen.show();
+        // navigator.splashscreen.show();
         var App = require("index");
         exports.app = new App({el: $("body")});      
     };
-    window.cordova ? document.addEventListener('deviceready', onReady, false) : console.log('error');
+    // window.cordova ? document.addEventListener('deviceready', onReady, false) : console.log('error');
+    $(onReady);
   </script>
 </head>
 <body>

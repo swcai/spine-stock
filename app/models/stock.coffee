@@ -4,6 +4,8 @@ $ = jQuery
 class Stock extends Spine.Model
   @configure 'Stock', 'name', 'code', 'currentPrice'
 
+  @extend Spine.Model.Local
+
   constructor: ->
     super
 

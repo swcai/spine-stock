@@ -88,7 +88,9 @@ class StockList extends Spine.Controller
 
   addAll: ->
     # @listview.addAll
-    Stock.refresh Stock.all()
+    # Stock.refresh Stock.all()
+    # @listview.el.remove()
+    # Stock.fetch()
 
   openStockAddPanel: ->
     @code_input.removeAttr 'disabled'
@@ -118,9 +120,9 @@ class StockAppStack extends Spine.Stack
     @list = new StockList(el: "#stocklist_page")
     @detail = new StockDetail(el: "#stockdetail_page")
 
-    # console.log "start fetch"
-    # Stock.fetch()
-    # console.log "fetch done"
+    console.log "start fetch"
+    Stock.fetch()
+    console.log "fetch done"
 
     @route '/stocks/:id', (params) -> @detail.active(params)
     @route '/stocks', (params) -> @list.active(params)
